@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@metamask/providers": "^14.0.2",
     "ethers": "^6.9.2",
     "next": "14.0.4",
     "react": "^18",
