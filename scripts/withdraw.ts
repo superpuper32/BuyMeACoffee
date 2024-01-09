@@ -2,30 +2,40 @@ import { ethers } from "hardhat";
 
 const abi = require("../artifacts/contracts/BuyMeACoffee.sol/BuyMeACoffee.json");
 
-async function getBalance(provider, address) {
+type Provider = {
+    apiKey: string;
+}
+
+async function getBalance(provider: any, address: any) {
   const balanceBigInt = await provider.getBalance(address);
   return ethers.formatEther(balanceBigInt);
 }
 
 async function main() {
-  // Get the contract that has been deployed to Goerli.
-  const contractAddress="0xDBa03676a2fBb6711CB652beF5B7416A53c1421D";
+  // Get the contract that has been deployed to Sepolia.
+  const contractAddress="0xF5C1F1d17CF3d8C5ea6372890A7905D110Cd8bC9";
   const contractABI = abi.abi;
 
   // Get the node connection and wallet connection.
-  const provider = new ethers.JsonRpcProvider("sepolia", process.env.SEPOLIA_API_KEY);
+  const provider = new ethers.AlchemyProvider("sepolia", process.env.SEPOLIA_API_KEY);
+
+  console.log('provider', provider);
 
   // Ensure that signer is the SAME address as the original contract deployer,
   // or else this script will fail with an error.
-  const signer = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+  const signer = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
+
+  console.log('signer', signer);
 
   // Instantiate connected contract.
   const buyMeACoffee = new ethers.Contract(contractAddress, contractABI, signer);
 
+  console.log('buyMeACoffee', buyMeACoffee); 
+
   // Check starting balances.
   console.log("current balance of owner: ", await getBalance(provider, signer.address), "ETH");
-  const contractBalance = await getBalance(provider, buyMeACoffee.address);
-  console.log("current balance of contract: ", await getBalance(provider, buyMeACoffee.address), "ETH");
+  const contractBalance = await getBalance(provider, buyMeACoffee.target);
+  console.log("current balance of contract: ", await getBalance(provider, buyMeACoffee.target), "ETH");
 
   // Withdraw funds if there are funds to withdraw.
   if (contractBalance !== "0.0") {

@@ -1,13 +1,14 @@
 import { ethers } from "hardhat";
 
+
 // Returns the Ether balance of a given address.
-async function getBalance(address: any) {
+async function getBalance(address: string) {
   const balanceBigInt = await ethers.provider.getBalance(address);
   return ethers.formatEther(balanceBigInt);
 }
 
 // Logs the Ether balances for a list of addresses.
-async function printBalances(addresses: any[]) {
+async function printBalances(addresses: string[]) {
   let idx = 0;
   for (const address of addresses) {
     console.log(`Address ${idx} balance: `, await getBalance(address));
@@ -29,7 +30,7 @@ async function printMemos(memos: any[]) {
 async function main() {
   // Get the example accounts we'll be working with.
   const [owner, tipper, tipper2, tipper3] = await ethers.getSigners();
-
+  
   // We get the contract to deploy.
   const buyMeACoffee = await ethers.deployContract("BuyMeACoffee");
 
@@ -38,7 +39,7 @@ async function main() {
   console.log("BuyMeACoffee deployed to:", buyMeACoffee.target);
 
   // Check balances before the coffee purchase.
-  const addresses = [owner.address, tipper.address, buyMeACoffee.target];
+  const addresses: string[] = [owner.address, tipper.address, buyMeACoffee.target as string];
   console.log("== start ==");
   await printBalances(addresses);
 
