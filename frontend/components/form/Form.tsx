@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
 
-import abi from '../../../artifacts/contracts/BuyMeACoffee.sol/BuyMeACoffee.json';
+import abi from '../../utils/BuyMeACoffee.json';
 
 const CONTRACT_ADDRESS = "0xF5C1F1d17CF3d8C5ea6372890A7905D110Cd8bC9";
 const CONTRACT_ABI = abi.abi;

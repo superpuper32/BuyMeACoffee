@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import Head from 'next/head'
-import Image from 'next/image'
 
-import styles from '../styles/Home.module.css'
 import { Button, Form, Footer, Memos } from '../components';
-import abi from '../../artifacts/contracts/BuyMeACoffee.sol/BuyMeACoffee.json';
+import styles from '../styles/Home.module.css'
+import abi from '../utils/BuyMeACoffee.json';
 
 export default function Home() {
   // Contract Address & ABI
@@ -64,7 +63,7 @@ export default function Home() {
     // us a new memo.
     const onNewMemo = (from: string, timestamp: any, name: string, message: string) => {
       // console.log("Memo received: ", from, timestamp, name, message);
-      setMemos((prevState) => [ ...prevState, {
+      setMemos((prevState): any => [ ...prevState, {
           address: from,
           timestamp: new Date(timestamp * 1000),
           message,
